@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    17:43:14 05/01/2024 
+-- Create Date:    09:21:34 05/18/2024 
 -- Design Name: 
--- Module Name:    halfadder - Behavioral 
+-- Module Name:    mux2x1 - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -27,31 +27,28 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity halfadder is
-    Port ( A : in  STD_LOGIC;
-           B : in  STD_LOGIC;
-           S : out  STD_LOGIC;
-           C : out  STD_LOGIC);
-end halfadder;
-
-architecture Behavioral of halfadder is
-
-component xorgateha 
-    Port ( X1 : in  STD_LOGIC;
-           X2 : in  STD_LOGIC;
-           Y1 : out  STD_LOGIC);
-end component;
-
-component andgateha
-    Port ( A1 : in  STD_LOGIC;
-           A2 : in  STD_LOGIC;
+entity mux2x1 is
+    Port ( S2 : in  STD_LOGIC;
+           I2 : in  STD_LOGIC_VECTOR (1 downto 0);
            Y2 : out  STD_LOGIC);
-end component;
+end mux2x1;
+
+architecture Behavioral of mux2x1 is
 
 begin
 
-z1 : xorgateha port map(A,B,S);
-z2 : andgateha port map(A,B,C);
+process (S2, I2)
+begin
+
+if S2 = '0' then
+	Y2 <= I2(0);
+	
+else 
+	Y2 <= I2(1);
+	
+end if;
+
+end process;
 
 end Behavioral;
 

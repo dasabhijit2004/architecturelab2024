@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    17:43:14 05/01/2024 
+-- Create Date:    09:56:35 04/22/2024 
 -- Design Name: 
--- Module Name:    halfadder - Behavioral 
+-- Module Name:    jkflipflop - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -27,31 +27,49 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity halfadder is
-    Port ( A : in  STD_LOGIC;
-           B : in  STD_LOGIC;
-           S : out  STD_LOGIC;
-           C : out  STD_LOGIC);
-end halfadder;
+entity jkflipflop is
+    Port ( clk : in  STD_LOGIC;
+           rst : in  STD_LOGIC;
+           j : in  STD_LOGIC;
+           k : in  STD_LOGIC;
+           q : out  STD_LOGIC;
+           qb : out  STD_LOGIC);
+end jkflipflop;
 
-architecture Behavioral of halfadder is
+architecture Behavioral of jkflipflop is
 
-component xorgateha 
-    Port ( X1 : in  STD_LOGIC;
-           X2 : in  STD_LOGIC;
-           Y1 : out  STD_LOGIC);
-end component;
-
-component andgateha
-    Port ( A1 : in  STD_LOGIC;
-           A2 : in  STD_LOGIC;
-           Y2 : out  STD_LOGIC);
-end component;
+signal nxt, prv : STD_LOGIC;
 
 begin
 
-z1 : xorgateha port map(A,B,S);
-z2 : andgateha port map(A,B,C);
+process (j,k,clk,rst)
+begin
+
+nxt <= '0';
+
+if rst = '1' then
+nxt <= '0';
+
+elsif clk = '1' and clk'event then
+if j /= k then
+nxt <= j;
+
+elsif j = '1' and k = '1' then
+nxt <= not prv;
+
+else
+nxt <= prv;
+
+end if;
+
+end if;
+
+end process;
+
+q <= nxt;
+qb <= not nxt;
+prv <= nxt;
 
 end Behavioral;
+
 
